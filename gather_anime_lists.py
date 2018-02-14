@@ -48,6 +48,8 @@ def gather_gogo_anime():
                 # may add if useful Status
                 # Status = anime_info[5].text[7:]
 
+                number_of_episodes =
+
                 all_anime[title] = plot, genre, release_date, link  # Final product
 
                 """consider that the website knows how many episodes a show should have and gogo has current episodes 
@@ -73,6 +75,5 @@ from pickle import dump, load
 
 dump(all_anime, open("anime_save_.p", "wb"))  # store anime in file
 all_anime = load(open("anime_save_.p", "rb"))
-
 
 
