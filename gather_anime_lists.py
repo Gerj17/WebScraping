@@ -1,4 +1,3 @@
-
 def gather_gogo_anime():
     from gapurl import parseurl
     from string import ascii_lowercase as alphabet
@@ -19,7 +18,7 @@ def gather_gogo_anime():
         # adds anime link, plot, genres and release date to dictionary called all_anime with the key being the anime
         # name
 
-        # Cycle through Letter category of anime
+        # Cycle through Letter category of anime and gather data
         for li in listing:
             # get title of anime
             title = li.a.text
@@ -45,21 +44,31 @@ def gather_gogo_anime():
 
                 release_date = anime_info[4].text[9:]
 
+                """
                 # may add if useful Status
-                # Status = anime_info[5].text[7:]
+                status = anime_info[5].text[8:]
 
-                number_of_episodes =
+                latest_episodes = anime_soup.find("div", {"class", "anime_video_body"})
 
-                all_anime[title] = plot, genre, release_date, link  # Final product
+                if status == "Completed":
+                    episodes = latest_episodes.ul.li.a.text[2:]
+                    all_anime[title] = episodes
+                else:
+                    current_episode = latest_episodes.ul.li.a.text[2:]
+                    all_anime[title] = current_episode
+                    """
+
+                all_anime[title] = plot, genre, release_date  # Final product
 
                 """consider that the website knows how many episodes a show should have and gogo has current episodes 
                 probably probably can use that with an if statement to give 'current episode', 'expected episode' and 
                 'episodes remaining' """  # Code for consideration
 
-        # Breaks loop1
+        # Breaks loop
         if gogo_anime_list == 'http://www3.gogoanime.tv/anime-list-z':
             print('Success!!')
             break
+
         # Update the url to get every letter category of anime
         counter += 1
         gogo_anime_list = str(gogo_anime_list[:-1] + alphabet[counter])
@@ -75,5 +84,3 @@ from pickle import dump, load
 
 dump(all_anime, open("anime_save_.p", "wb"))  # store anime in file
 all_anime = load(open("anime_save_.p", "rb"))
-
-
