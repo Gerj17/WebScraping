@@ -1,0 +1,78 @@
+
+def gather_gogo_anime():
+    from gapurl import parseurl
+    from string import ascii_lowercase as alphabet
+    """adds anime link, plot,genres and release date to dictionary name anime with the key being the anime name
+    """
+
+    gogo = 'http://www3.gogoanime.tv/'
+    gogo_anime_list = 'http://www3.gogoanime.tv/anime-list-0'
+
+    counter = 0  # iterate through alphabet to anime url
+    while True:
+        print(gogo_anime_list)
+        print('Parsing')
+        soup = parseurl(gogo_anime_list)
+        listing = soup.find("ul", {"class", "listing"}).findAll("li")
+        print('Done Parsing')
+
+        # adds anime link, plot, genres and release date to dictionary called all_anime with the key being the anime
+        # name
+
+        # Cycle through Letter category of anime
+        for li in listing:
+            # get title of anime
+            title = li.a.text
+
+            # get link to anime has to concatenated with gogo (loops once)
+            for url in li.find_all('a', href=True):
+                link = gogo + (url['href'])
+
+                if title in all_anime:
+                    continue
+
+                print('Second Parsing')
+                anime_soup = parseurl(link)
+                print('Done Second Parsing')
+                anime_info = anime_soup.find("div", {"class", "anime_info_body_bg"}).findAll("p")
+
+                plot = anime_info[2].text
+
+                gets_genre = anime_info[3].findAll('a')
+                genre = []
+                for x in gets_genre:
+                    genre.append(x['title'])
+
+                release_date = anime_info[4].text[9:]
+
+                # may add if useful Status
+                # Status = anime_info[5].text[7:]
+
+                all_anime[title] = plot, genre, release_date, link  # Final product
+
+                """consider that the website knows how many episodes a show should have and gogo has current episodes 
+                probably probably can use that with an if statement to give 'current episode', 'expected episode' and 
+                'episodes remaining' """  # Code for consideration
+
+        # Breaks loop1
+        if gogo_anime_list == 'http://www3.gogoanime.tv/anime-list-z':
+            print('Success!!')
+            break
+        # Update the url to get every letter category of anime
+        counter += 1
+        gogo_anime_list = str(gogo_anime_list[:-1] + alphabet[counter])
+
+
+# Dictionary containing all anime
+
+all_anime = {}
+gather_gogo_anime()
+
+# read and write dictionary in a file (Dictionaries can't be stored in a file as a string)
+from pickle import dump, load
+
+dump(all_anime, open("anime_save_.p", "wb"))  # store anime in file
+all_anime = load(open("anime_save_.p", "rb"))
+
+
+
