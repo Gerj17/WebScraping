@@ -1,13 +1,12 @@
 def gather_gogo_anime():
     from gapurl import parseurl
-    from string import ascii_lowercase as alphabet
     """adds anime link, plot,genres and release date to dictionary name anime with the key being the anime name
     """
 
     gogo = 'http://www3.gogoanime.tv/'
-    gogo_anime_list = 'http://www3.gogoanime.tv/anime-list-0'
+    gogo_anime_list = 'http://www3.gogoanime.tv/anime-list-0?page=1'
 
-    counter = 0  # iterate through alphabet to anime url
+    counter = 1  # iterate through alphabet to anime url
     while True:
         print(gogo_anime_list)
         print('Parsing')
@@ -65,13 +64,16 @@ def gather_gogo_anime():
                 'episodes remaining' """  # Code for consideration
 
         # Breaks loop
-        if gogo_anime_list == 'http://www3.gogoanime.tv/anime-list-z':
+        if not listing:
             print('Success!!')
             break
 
         # Update the url to get every letter category of anime
         counter += 1
-        gogo_anime_list = str(gogo_anime_list[:-1] + alphabet[counter])
+        if counter < 10:
+            gogo_anime_list = str(gogo_anime_list[:-1] + str(counter))
+            continue
+        gogo_anime_list = str(gogo_anime_list[:-2] + str(counter))
 
 
 # Dictionary containing all anime
