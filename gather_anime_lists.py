@@ -1,6 +1,5 @@
 def gather_gogo_anime():
     from gapurl import parseurl
-    from string import ascii_lowercase as alphabet
     """adds anime link, plot,genres and release date to dictionary name anime with the key being the anime name
     """
 
