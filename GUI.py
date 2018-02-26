@@ -1,7 +1,7 @@
 from tkinter import *
 
 
-class AddPage(Frame):
+class Application(Frame):
 
     def __init__(self, users_anime, master=None):  # add  a list as parameter to store your anime
         Frame.__init__(self, master, bg="red")
@@ -87,6 +87,6 @@ root.title('Filter Listbox Test')
 # root.geometry("560x450")
 
 your_anime = []
-app = AddPage(your_anime, master=root)
+app = Application(your_anime, master=root)
 print('Starting mainloop()')
 app.mainloop()
