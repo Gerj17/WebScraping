@@ -4,7 +4,7 @@ from tkinter import *
 class Application(Frame):
 
     def __init__(self, users_anime, master=None):  # add  a list as parameter to store your anime
-        Frame.__init__(self, master, bg="red")
+        Frame.__init__(self, master, bg="gray")
         self.user_anime = users_anime
         putback = {}
         self.putback = putback
@@ -21,7 +21,6 @@ class Application(Frame):
         self.textbox_choices = Listbox(self, selectmode=SINGLE, width=59, height=15)
 
         self.entry.grid(row=0, column=1, padx=10, pady=3)
-        self.label.grid(row=0, column=0, padx=10, pady=3, )
         self.libox_all_anime.grid(row=1, column=0, padx=10, pady=3, columnspan=2)
         self.textbox_choices.grid(row=1, column=3, padx=10, pady=3, columnspan=2)
         self.btn_select.grid(column=2, row=1)
