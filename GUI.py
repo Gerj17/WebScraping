@@ -1,11 +1,11 @@
 from tkinter import *
 
 
-class Application(Frame):
+class AddAnime(Frame):
 
-    def __init__(self, users_anime, master=None):  # add  a list as parameter to store your anime
+    def __init__(self, list_user_anime, master=None):  # add  a list as parameter to store your anime
         Frame.__init__(self, master, bg="gray")
-        self.user_anime = users_anime
+        self.user_anime = list_user_anime  # all of the anime the user likes
         putback = {}
         self.putback = putback
         self.pack()
@@ -59,7 +59,7 @@ class Application(Frame):
         for i in selection:
             entered = self.libox_all_anime.get(i)
             self.textbox_choices.insert(END, entered + '\n')
-            # self.user_anime.append(entered)
+            self.user_anime.append(entered)  ######
             self.libox_all_anime.delete(selection)
             self.putback[entered] = selection
 
@@ -75,17 +75,33 @@ class Application(Frame):
         for i in self.textbox_choices.get(0, END):
             self.user_anime.append(i[:-1])
 
-    def quit(self):
+    def close(self):
         self.final()
         """Quit the Tcl interpreter. All widgets will be destroyed."""
         self.tk.quit()
 
 
+class Youanime(Frame):
+    def __init__(self, master=None):  # add  a list as parameter to store your anime
+        Frame.__init__(self, master, bg="green")
+        self.pack()
+
+        self.lbl_title = Label(self, text="Your Anime !!", padx=10)
+        self.libox_ur_anime = Listbox(self, selectmode=SINGLE, width=90, height=15, bg="grey")
+
+        self.lbl_title.grid(row=0, column=0, columnspan=2)
+        self.libox_ur_anime.grid(row=1, column=0, columnspan=2)
+
+
 root = Tk()
 root.title('Filter Listbox Test')
-# root.geometry("560x450")
+root.geometry("1013x303")
 
 your_anime = []
-app = Application(your_anime, master=root)
-print('Starting mainloop()')
-app.mainloop()
+
+app1 = AddAnime(your_anime, master=root)
+# app2 = Youanime(master=root)
+
+root.mainloop()
+
+print(your_anime)
