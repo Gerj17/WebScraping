@@ -10,6 +10,7 @@ class AddAnime(Frame):
         self.putback = putback
         self.pack()
 
+        # -----Create widgets-----
         self.search_var = StringVar()
         self.search_var.trace("w", self.update_list)
         self.entry = Entry(self, textvariable=self.search_var, width=60)
@@ -24,27 +25,27 @@ class AddAnime(Frame):
         self.scrollbar1 = Scrollbar(self)
         self.scrollbar2 = Scrollbar(self)
 
+        # -----Place widget in frame-----
         self.entry.grid(row=0, column=1, padx=10, pady=3)
-        self.label_0.grid(row=0, column=0, padx=18,  pady=3,sticky=(N, S, E, W))
-        self.label_1.grid(row=1, column=0, padx=18, columnspan=2, pady=3,)
-        self.label_2.grid(row=1, column=3, padx=18, columnspan=2, pady=3,)
-
+        self.label_0.grid(row=0, column=0, padx=18, pady=3, sticky=(N, S, E, W))
+        self.label_1.grid(row=1, column=0, padx=18, columnspan=2, pady=3, )
+        self.label_2.grid(row=1, column=3, padx=18, columnspan=2, pady=3, )
         self.libox_all_anime.grid(row=2, column=0, padx=15, pady=3, columnspan=2)
         self.textbox_choices.grid(row=2, column=3, padx=15, pady=3, columnspan=2)
         self.btn_select.grid(row=2, column=2)
         self.btn_remove.grid(row=3, column=3, sticky=E)
         self.btn_done.grid(row=3, column=1, padx=10)
-
         self.scrollbar1.grid(row=2, column=0, padx=15, pady=3, columnspan=2, sticky=(N, S, E))
         self.scrollbar2.grid(row=2, column=3, padx=15, pady=3, columnspan=2, sticky=(N, S, E))
 
+        #  -----configure scrollbars-----
         self.libox_all_anime.configure(yscrollcommand=self.scrollbar1.set)
-        self.scrollbar1.configure(command=self.libox_all_anime.yview)
-
         self.textbox_choices.configure(yscrollcommand=self.scrollbar1.set)
+
+        self.scrollbar1.configure(command=self.libox_all_anime.yview)
         self.scrollbar2.configure(command=self.textbox_choices.yview)
 
-        # Function for updating the list/doing the search.
+        # ----- Function for updating the list/doing the search.------
         # It needs to be called here to populate the listbox.
         self.update_list()
 
@@ -91,7 +92,7 @@ class AddAnime(Frame):
 
     # def final(self):
 
-    # def maintain      add a function that maintains the status of the listbox's
+    # def maintain  add a function that maintains the status of the listbox's
 
     def close(self):
         # self.final()
@@ -123,8 +124,6 @@ class Youanime(Frame):
         self.libox_ur_anime.configure(yscrollcommand=self.scrollbar3.set)
         self.scrollbar3.configure(command=self.libox_ur_anime.yview)
 
-
-
         for c, item in enumerate(self.user_anime_YU):
             # print(str(item))
             items = "   " + str(item)  # add some bullet points or something
@@ -142,10 +141,17 @@ root = Tk()
 root.title('Filter Listbox Test')
 # root.geometry("1013x303")
 
-#your_anime = ['Terra Formars Revenge', 'Tesagure! Bukatsumono Encore ','Tesagure! Bukatsumono Spin-off Purupurun Sharumu to Asobou', 'Tetsujin 28-go (Dub)', 'Tetsuwan Birdy (Dub)', 'Tetsuwan Birdy Decode (Dub)', 'Tetsuwan Birdy Decode:02 (Dub)', 'Texhnolyze ','The Cat Returns (Dub)', 'The Cat Returns', 'The Daughter of 20 Faces ', 'The Brave of Gold Goldran', 'The Disappearance of Conan Edogawa: The Worst Two Days in History', 'The Disappearance of Haruhi Suzumiya', 'The Epic of Zektbach OVA', 'The Galaxy Railways ', 'The Familiar of Zero ', 'The Boy Who Saw the Wind', 'The Galaxy Railways (Dub)', 'The Garden of Words (Dub)', 'The Girl Who Leapt Through Time', 'The Girl Who Leapt Through Time (Dub)']
-your_anime = []
-app1 = AddAnime(your_anime, master=root)
-#app2 = Youanime(your_anime, root)
+your_anime = ['Terra Formars Revenge', 'Tesagure! Bukatsumono Encore ',
+              'Tesagure! Bukatsumono Spin-off Purupurun Sharumu to Asobou', 'Tetsujin 28-go (Dub)',
+              'Tetsuwan Birdy (Dub)', 'Tetsuwan Birdy Decode (Dub)', 'Tetsuwan Birdy Decode:02 (Dub)', 'Texhnolyze ',
+              'The Cat Returns (Dub)', 'The Cat Returns', 'The Daughter of 20 Faces ', 'The Brave of Gold Goldran',
+              'The Disappearance of Conan Edogawa: The Worst Two Days in History',
+              'The Disappearance of Haruhi Suzumiya', 'The Epic of Zektbach OVA', 'The Galaxy Railways ',
+              'The Familiar of Zero ', 'The Boy Who Saw the Wind', 'The Galaxy Railways (Dub)',
+              'The Garden of Words (Dub)', 'The Girl Who Leapt Through Time', 'The Girl Who Leapt Through Time (Dub)']
+# your_anime = []
+# app1 = AddAnime(your_anime, master=root)
+app2 = Youanime(your_anime, root)
 
 root.mainloop()
 
