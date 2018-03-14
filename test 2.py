@@ -101,7 +101,7 @@ class AddAnime(Frame):
         self.tk.quit()
 
 
-class Youanime(Frame):
+class YouAnime(Frame):
     def __init__(self, list_user_anime, master=None):  # add  a list as parameter to store your anime
         Frame.__init__(self, master, bg="green")
         self.pack()
@@ -136,51 +136,63 @@ class Youanime(Frame):
             self.libox_ur_anime.delete(selection)
             del self.user_anime_YU[i]
 
-class anime_discription(Frame):
+
+class AnimeDescription(Frame):
     def __init__(self,  master=None):  # add  a list as parameter to store your anime
         from pickle import load
         Frame.__init__(self, master, bg="red")
-        self.pack()
 
         all_anime = load(open("testing_save_.p", "rb"))
 
         # -----Create Widgets-----
-        lable_title = Label(self, text="Title :")
-        lable_genre = Label(self, text="Genre :")
-        lable_release_date = Label(self, text="Release Date :")
-        lable_plot = Label(self, text="Plot")
-        discription = Text(self, bg="pink")
+        self.lable_title = Label(self, text="Title :")
+        self.lable_genre = Label(self, text="Genre :")
+        self.lable_release_date = Label(self, text="Release Date :")
+        self.lable_plot = Label(self, text="Plot")
+        self.discription = Text(self, bg="pink")
 
-        #-----Place widgets-----
+        # -----Place widgets-----
+    def place_widgets(self):
+        self.pack()
+        self.lable_title.grid(column=1)
+        self.lable_genre.grid(row=3, column=1)
+        self.lable_release_date.grid(row=4, column=1)
+        self.lable_plot.grid(row=5, column=1, sticky=W)
+        self.discription.grid(row=6, column=1)
 
-        lable_title.grid(column=1)
-        lable_genre.grid(row=2, column=1)
-        lable_release_date.grid(row=3, column=1)
-        lable_plot.grid(row=4, column=1, sticky=W)
-        discription.grid(row=5, column=1)
-
-#        discription.insert(END, all_anime[][1])  string formarting
+        #  discription.insert(END, all_anime[][1])  string formatting
 
 
+class YourParent:
+    def __init__(self):
+        self.Youranime = YouAnime
+        self.animedescription = AnimeDescription
 
+
+        self.Youranime(list_user_anime=your_anime)
+        self.animedescription()
 
 
 root = Tk()
 root.title('Filter Listbox Test')
 # root.geometry("1013x303")
 
-#your_anime = ['Terra Formars Revenge', 'Tesagure! Bukatsumono Encore ',
-#              'Tesagure! Bukatsumono Spin-off Purupurun Sharumu to Asobou', 'Tetsujin 28-go (Dub)',
-#              'Tetsuwan Birdy (Dub)', 'Tetsuwan Birdy Decode (Dub)', 'Tetsuwan Birdy Decode:02 (Dub)', 'Texhnolyze ',
-#              'The Cat Returns (Dub)', 'The Cat Returns', 'The Daughter of 20 Faces ', 'The Brave of Gold Goldran',
-#              'The Disappearance of Conan Edogawa: The Worst Two Days in History',
-#              'The Disappearance of Haruhi Suzumiya', 'The Epic of Zektbach OVA', 'The Galaxy Railways ',
-#              'The Familiar of Zero ', 'The Boy Who Saw the Wind', 'The Galaxy Railways (Dub)',
-#              'The Garden of Words (Dub)', 'The Girl Who Leapt Through Time', 'The Girl Who Leapt Through Time (Dub)']
-your_anime = []
-#app1 = AddAnime(your_anime, master=root)
-#app2 = Youanime(your_anime, root)
-app3 = anime_discription(root)
+your_anime = ['Terra Formars Revenge', 'Tesagure! Bukatsumono Encore ',
+              'Tesagure! Bukatsumono Spin-off Purupurun Sharumu to Asobou', 'Tetsujin 28-go (Dub)',
+              'Tetsuwan Birdy (Dub)', 'Tetsuwan Birdy Decode (Dub)', 'Tetsuwan Birdy Decode:02 (Dub)', 'Texhnolyze ',
+              'The Cat Returns (Dub)', 'The Cat Returns', 'The Daughter of 20 Faces ', 'The Brave of Gold Goldran',
+              'The Disappearance of Conan Edogawa: The Worst Two Days in History',
+              'The Disappearance of Haruhi Suzumiya', 'The Epic of Zektbach OVA', 'The Galaxy Railways ',
+              'The Familiar of Zero ', 'The Boy Who Saw the Wind', 'The Galaxy Railways (Dub)',
+              'The Garden of Words (Dub)', 'The Girl Who Leapt Through Time', 'The Girl Who Leapt Through Time (Dub)']
+# your_anime = []
+# app1 = AddAnime(your_anime, master=root)
+# app1test = AddAnime(your_anime, root)
+# app2 = YouAnime(your_anime, root)
+# app3 = AnimeDescription(root)
+
+app4 = YourParent()
+
 root.mainloop()
 
 print(your_anime)
