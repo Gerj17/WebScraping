@@ -114,6 +114,10 @@ class YouAnime(Frame):
         self.scrollbar3 = Scrollbar(self, )
         self.create_ur_anime()
 
+
+
+
+
     def create_ur_anime(self):
         self.lbl_title.grid(row=0, column=2, sticky=W)
         self.libox_ur_anime.grid(row=1, column=0, columnspan=4)
@@ -136,6 +140,18 @@ class YouAnime(Frame):
             self.libox_ur_anime.delete(selection)
             del self.user_anime_YU[i]
 
+    def get_anime_name(self): 
+        selection = self.libox_ur_anime.curselection()
+        for i in selection:
+            anime_name = self.libox_ur_anime.get(i)
+            return anime_name
+            # self.pack_forget()
+
+    def double_click(self, thingy):
+        return self.libox_ur_anime.bind('<Double-Button-1>', thingy)
+
+
+            
 
 class AnimeDescription(Frame):
     def __init__(self,  master=None):  # add  a list as parameter to store your anime
@@ -143,34 +159,85 @@ class AnimeDescription(Frame):
         Frame.__init__(self, master, bg="red")
 
         all_anime = load(open("testing_save_.p", "rb"))
+        self.all_anime = all_anime
 
         # -----Create Widgets-----
-        self.lable_title = Label(self, text="Title :")
-        self.lable_genre = Label(self, text="Genre :")
-        self.lable_release_date = Label(self, text="Release Date :")
-        self.lable_plot = Label(self, text="Plot")
-        self.discription = Text(self, bg="pink")
+        self.label_title = Label(self, text="Title :")
+        self.label_genre = Label(self, text="Genre :")
+        self.label_release_date = Label(self, text="Release Date :")
+        self.label_plot = Label(self, text="Plot")
+        self.description = Text(self, bg="pink")
+        self.pack()
 
         # -----Place widgets-----
     def place_widgets(self):
-        self.pack()
-        self.lable_title.grid(column=1)
-        self.lable_genre.grid(row=3, column=1)
-        self.lable_release_date.grid(row=4, column=1)
-        self.lable_plot.grid(row=5, column=1, sticky=W)
-        self.discription.grid(row=6, column=1)
+        self.label_title.grid(column=1)
+        self.label_genre.grid(row=3, column=1)
+        self.label_release_date.grid(row=4, column=1)
+        self.label_plot.grid(row=5, column=1, sticky=W)
+        self.description.grid(row=6, column=1)
 
-        #  discription.insert(END, all_anime[][1])  string formatting
+        #self.description.insert(END, self.all_anime['009 Re:Cyborg'][0])  # string formatting
+
+
+    def place_anime_info(self, name):
+        self.description.insert(END, self.all_anime[name][0])  # ---Plot--- string formatting
+        # self.description.insert(END, self.all_anime[name][1])  # ---Genre---string formatting
+        # self.description.insert(END, self.all_anime[name][2])  # --- Release Date ---string formatting
+
+
 
 
 class YourParent:
     def __init__(self):
-        self.Youranime = YouAnime
+        # ------ Store classes as variables  -----
+        self.youranime = YouAnime
         self.animedescription = AnimeDescription
 
-
-        self.Youranime(list_user_anime=your_anime)
+        self.youranime(list_user_anime=your_anime)
         self.animedescription()
+        self.animedescription.place_widgets(AnimeDescription())
+
+
+        self.nm_anime = self.youranime.get_anime_name(YouAnime(list_user_anime=your_anime))  # call method from Youanime
+
+
+
+
+        self.youranime.double_click(YouAnime(list_user_anime=your_anime), self.fill_description)
+
+
+    def fill_description(self, event):
+        self.animedescription.place_anime_info(AnimeDescription(), self.nm_anime)  # call method from AnimeDescription
+        #return 'break'
+
+
+
+
+
+
+
+
+
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 root = Tk()
