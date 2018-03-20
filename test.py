@@ -115,4 +115,5 @@ h = bg_images.height()
 #
 app = Application(your_anime, master=root)
 print('Starting mainloop()')
+
 root.mainloop()

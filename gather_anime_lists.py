@@ -11,7 +11,7 @@ def gather_gogo_anime():
         print(gogo_anime_list)
         print('Parsing')
         soup = parseurl(gogo_anime_list)
-        listing = soup.find("ul", {"class", "listing"}).findAll("li")
+        listing = soup.find("ul", {"class", "listing"}).findAll("li")  # list containing anime info
         print('Done Parsing')
 
         # adds anime link, plot, genres and release date to dictionary called all_anime with the key being the anime
@@ -31,7 +31,7 @@ def gather_gogo_anime():
 
                 print('Second Parsing')
                 anime_soup = parseurl(link)
-                print('Done Second Parsing')
+                print('Done Second Parsing\n')
                 anime_info = anime_soup.find("div", {"class", "anime_info_body_bg"}).findAll("p")
 
                 plot = anime_info[2].text
@@ -63,17 +63,25 @@ def gather_gogo_anime():
                 probably probably can use that with an if statement to give 'current episode', 'expected episode' and 
                 'episodes remaining' """  # Code for consideration
 
-        # Breaks loop
+        # Breaks loop, if there is no list oof anime in the url it will break
         if not listing:
             print('Success!!')
             break
 
+
         # Update the url to get every letter category of anime
         counter += 1
+
+        if counter == 2:
+            break
+
+        # account for numbers larger than 9
         if counter < 10:
             gogo_anime_list = str(gogo_anime_list[:-1] + str(counter))
             continue
         gogo_anime_list = str(gogo_anime_list[:-2] + str(counter))
+
+
 
 
 # Dictionary containing all anime
@@ -84,5 +92,5 @@ gather_gogo_anime()
 # read and write dictionary in a file (Dictionaries can't be stored in a file as a string)
 from pickle import dump, load
 
-dump(all_anime, open("anime_save_.p", "wb"))  # store anime in file
+dump(all_anime, open("testing_save_.p", "wb"))  # store anime in file
 all_anime = load(open("anime_save_.p", "rb"))
