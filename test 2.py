@@ -151,7 +151,7 @@ class YouAnime(Frame):
 
     def unpack(self):
         print("DID IT ")
-        self.pack_forget()
+        return self.pack_forget()
 
 
 
@@ -218,7 +218,7 @@ class YourParent:  # contoll AnimeDescription and YouAnime
         self.animedescription = AnimeDescription
 
         self.youranime(list_user_anime=your_anime)
-        self.animedescription()
+        #self.animedescription()
         # self.animedescription.place_widgets(AnimeDescription())
 
         # self.nm_anime = self.youranime.get_anime_name(YouAnime(list_user_anime=your_anime))

@@ -82,6 +82,8 @@ def gather_gogo_anime():
         gogo_anime_list = str(gogo_anime_list[:-2] + str(counter))
 
 
+
+
 # Dictionary containing all anime
 
 all_anime = {}
@@ -90,6 +92,6 @@ gather_gogo_anime()
 # read and write dictionary in a file (Dictionaries can't be stored in a file as a string)
 from pickle import dump, load
 
-# dump(all_anime, open("testing_save_.p", "wb"))  # store anime in file
+#dump(all_anime, open("testing_save_.p", "wb"))  # store anime in file
 dump(all_anime, open("anime_save_.p", "wb"))  # store anime in file
 all_anime = load(open("anime_save_.p", "rb"))
