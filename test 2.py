@@ -114,9 +114,9 @@ class YouAnime(Frame):
         self.scrollbar3 = Scrollbar(self, )
         self.create_ur_anime()
 
+        self.animedescription = AnimeDescription
 
-
-
+        self.libox_ur_anime.bind('<Double-Button-1>', self.get_anime_name)
 
     def create_ur_anime(self):
         self.lbl_title.grid(row=0, column=2, sticky=W)
@@ -140,15 +140,19 @@ class YouAnime(Frame):
             self.libox_ur_anime.delete(selection)
             del self.user_anime_YU[i]
 
-    def get_anime_name(self): 
+    def get_anime_name(self, event):
         selection = self.libox_ur_anime.curselection()
         for i in selection:
             anime_name = self.libox_ur_anime.get(i)
+            self.animedescription.place_anime_info(AnimeDescription(), anime_name)
+            #print(anime_name)
             return anime_name
             # self.pack_forget()
 
-    def double_click(self, thingy):
-        return self.libox_ur_anime.bind('<Double-Button-1>', thingy)
+    def unpack(self):
+        print("DID IT ")
+        self.pack_forget()
+
 
 
             
@@ -161,80 +165,74 @@ class AnimeDescription(Frame):
         all_anime = load(open("testing_save_.p", "rb"))
         self.all_anime = all_anime
 
+        # ------Store classes as variables/Instances-----
+        self.youranime = YouAnime
+
         # -----Create Widgets-----
         self.label_title = Label(self, text="Title :")
         self.label_genre = Label(self, text="Genre :")
         self.label_release_date = Label(self, text="Release Date :")
         self.label_plot = Label(self, text="Plot")
         self.description = Text(self, bg="pink")
+        self.description2 = Text(self, bg="pink")
         self.pack()
 
+        #for key, value in all_anime.items():
+        #print(key, "=", value)
+
         # -----Place widgets-----
-    def place_widgets(self):
+    #def place_widgets(self):
         self.label_title.grid(column=1)
         self.label_genre.grid(row=3, column=1)
         self.label_release_date.grid(row=4, column=1)
         self.label_plot.grid(row=5, column=1, sticky=W)
-        self.description.grid(row=6, column=1)
+        #self.description2.grid(row=6, column=1)
+
 
         #self.description.insert(END, self.all_anime['009 Re:Cyborg'][0])  # string formatting
 
 
     def place_anime_info(self, name):
-        self.description.insert(END, self.all_anime[name][0])  # ---Plot--- string formatting
-        # self.description.insert(END, self.all_anime[name][1])  # ---Genre---string formatting
-        # self.description.insert(END, self.all_anime[name][2])  # --- Release Date ---string formatting
+
+        self.youranime.unpack(YouAnime(list_user_anime=your_anime))
+
+        self.description.grid(row=6, column=1)
+
+        print('\n', name, '\n')
+        the_name = name.strip()
+        self.description.insert(END, self.all_anime[the_name][0])  # ---Plot--- string formatting
+
+        #print("its here now ")
+        #self.description.insert(END, self.all_anime[name][1])  # ---Genre---string formatting
+        #self.description.insert(END, self.all_anime[name][2])  # --- Release Date ---string formatting
 
 
 
 
-class YourParent:
+
+class YourParent:  # contoll AnimeDescription and YouAnime
     def __init__(self):
-        # ------ Store classes as variables  -----
+
+        # ------Store classes as variables/Instances-----
         self.youranime = YouAnime
         self.animedescription = AnimeDescription
 
         self.youranime(list_user_anime=your_anime)
         self.animedescription()
-        self.animedescription.place_widgets(AnimeDescription())
+        # self.animedescription.place_widgets(AnimeDescription())
 
-
-        self.nm_anime = self.youranime.get_anime_name(YouAnime(list_user_anime=your_anime))  # call method from Youanime
-
-
-
-
-        self.youranime.double_click(YouAnime(list_user_anime=your_anime), self.fill_description)
-
-
-    def fill_description(self, event):
-        self.animedescription.place_anime_info(AnimeDescription(), self.nm_anime)  # call method from AnimeDescription
-        #return 'break'
+        # self.nm_anime = self.youranime.get_anime_name(YouAnime(list_user_anime=your_anime))
+        #  call method from Youanime
 
 
 
 
+        # self.youranime.double_click(YouAnime(list_user_anime=your_anime), self.fill_description)
 
 
-
-
-
-        
-        
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
+   # def fill_description(self, event):
+    #    self.animedescription.place_anime_info(AnimeDescription(), self.nm_anime)  # call method from AnimeDescription
+     #   #return 'break'
 
 
 
@@ -251,7 +249,8 @@ your_anime = ['Terra Formars Revenge', 'Tesagure! Bukatsumono Encore ',
               'The Disappearance of Conan Edogawa: The Worst Two Days in History',
               'The Disappearance of Haruhi Suzumiya', 'The Epic of Zektbach OVA', 'The Galaxy Railways ',
               'The Familiar of Zero ', 'The Boy Who Saw the Wind', 'The Galaxy Railways (Dub)',
-              'The Garden of Words (Dub)', 'The Girl Who Leapt Through Time', 'The Girl Who Leapt Through Time (Dub)']
+              'The Garden of Words (Dub)', 'The Girl Who Leapt Through Time', 'The Girl Who Leapt Through Time (Dub)',
+              '009 Re:Cyborg (Dub)', '.hack//Sign (Dub)']
 # your_anime = []
 # app1 = AddAnime(your_anime, master=root)
 # app1test = AddAnime(your_anime, root)
