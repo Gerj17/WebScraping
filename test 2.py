@@ -1,4 +1,5 @@
 from tkinter import *
+import tkinter # for the try and except in the animedescrition class
 
 
 class AddAnime(Frame):
@@ -109,7 +110,7 @@ class YouAnime(Frame):
 
         self.lbl_title = Label(self, text="Your Anime !!", padx=10, )
         self.btn_remove_YU = Button(self, text="Remove", padx=2, relief=RAISED, command=self.delete)
-        self.libox_ur_anime = Listbox(self, selectmode=SINGLE, width=90, height=15, bg="grey")
+        self.libox_ur_anime = Listbox(self, selectmode=SINGLE, width=106, height=15, bg="grey")
         self.btn_done = Button(self, text="Done", padx=7, command=self.quit)  # make the font larger ####
         self.scrollbar3 = Scrollbar(self, )
         self.create_ur_anime()
@@ -120,7 +121,8 @@ class YouAnime(Frame):
 
     def create_ur_anime(self):
         self.lbl_title.grid(row=0, column=2, sticky=W)
-        self.libox_ur_anime.grid(row=1, column=0, columnspan=4)
+        self.libox_ur_anime.grid(row=1, column=0, columnspan=4,)
+                                 #sticky=(N, S, E, W))
         self.btn_remove_YU.grid(row=0, column=3, sticky=E)
         # self.btn_done.grid(column=0, row=0,sticky=W)
         self.scrollbar3.grid(row=1, column=3, sticky=(E, N, S), )
@@ -151,11 +153,9 @@ class YouAnime(Frame):
 
     def unpack(self):
         print("DID IT ")
+        self.pack_forget()
         return self.pack_forget()
 
-
-
-            
 
 class AnimeDescription(Frame):
     def __init__(self,  master=None):  # add  a list as parameter to store your anime
@@ -174,27 +174,45 @@ class AnimeDescription(Frame):
         self.label_release_date = Label(self, text="Release Date :")
         self.label_plot = Label(self, text="Plot")
         self.description = Text(self, bg="pink")
-        self.description2 = Text(self, bg="pink")
+        self.description2 = Text(self, bg="green")
         self.pack()
 
-        #for key, value in all_anime.items():
-        #print(key, "=", value)
+        #self.youranime.unpack(YouAnime(list_user_anime=your_anime))
+
+        # -----See content of dictionary-----
+        # for key, value in all_anime.items():
+        # print(key, "=", value)
 
         # -----Place widgets-----
-    #def place_widgets(self):
+    # def place_widgets(self):
         self.label_title.grid(column=1)
         self.label_genre.grid(row=3, column=1)
         self.label_release_date.grid(row=4, column=1)
         self.label_plot.grid(row=5, column=1, sticky=W)
-        #self.description2.grid(row=6, column=1)
+        # self.description2.grid(row=6, column=1)
 
-
-        #self.description.insert(END, self.all_anime['009 Re:Cyborg'][0])  # string formatting
-
+        # self.description.insert(END, self.all_anime['009 Re:Cyborg'][0])  # string formatting
 
     def place_anime_info(self, name):
 
-        self.youranime.unpack(YouAnime(list_user_anime=your_anime))
+       # self.youranime.unpack(YouAnime(list_user_anime=your_anime))
+
+        if len(self.description.get("1.0", "end-1c")) == 0:
+            # self.pack_forget()
+            try:
+                self.description.delete(0, END)
+                print("the widget is empty")
+            except :
+                print("ran into error")
+                print(self.description)
+                print(self)
+
+
+
+            self.pack()
+        else:
+            print("it not ")
+            self.description.delete(0, END)
 
         self.description.grid(row=6, column=1)
 
@@ -202,9 +220,13 @@ class AnimeDescription(Frame):
         the_name = name.strip()
         self.description.insert(END, self.all_anime[the_name][0])  # ---Plot--- string formatting
 
-        #print("its here now ")
-        #self.description.insert(END, self.all_anime[name][1])  # ---Genre---string formatting
-        #self.description.insert(END, self.all_anime[name][2])  # --- Release Date ---string formatting
+    # self.youranime.unpack(YouAnime(list_user_anime=your_anime))
+
+
+        # print("its here now ")
+        # self.description.insert(END, self.all_anime[name][1])  # ---Genre---string formatting
+        # self.description.insert(END, self.all_anime[name][2])  # --- Release Date ---string formatting
+
 
 
 
@@ -218,21 +240,21 @@ class YourParent:  # contoll AnimeDescription and YouAnime
         self.animedescription = AnimeDescription
 
         self.youranime(list_user_anime=your_anime)
-        #self.animedescription()
+
+
+        # self.animedescription()
         # self.animedescription.place_widgets(AnimeDescription())
 
         # self.nm_anime = self.youranime.get_anime_name(YouAnime(list_user_anime=your_anime))
         #  call method from Youanime
 
-
-
-
         # self.youranime.double_click(YouAnime(list_user_anime=your_anime), self.fill_description)
-
 
    # def fill_description(self, event):
     #    self.animedescription.place_anime_info(AnimeDescription(), self.nm_anime)  # call method from AnimeDescription
-     #   #return 'break'
+     #   return 'break'
+
+
 
 
 
