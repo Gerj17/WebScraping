@@ -265,4 +265,3 @@ print(your_anime)
 
 
 
-hello
