@@ -222,7 +222,6 @@ class AnimeDescription(Frame):
 
     # self.youranime.unpack(YouAnime(list_user_anime=your_anime))
 
-
         # print("its here now ")
         # self.description.insert(END, self.all_anime[name][1])  # ---Genre---string formatting
         # self.description.insert(END, self.all_anime[name][2])  # --- Release Date ---string formatting
