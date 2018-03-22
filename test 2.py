@@ -279,7 +279,7 @@ your_anime = ['Terra Formars Revenge', 'Tesagure! Bukatsumono Encore ',
 # app2 = YouAnime(your_anime, root)
 # app3 = AnimeDescription(root)
 
-app4 = YourParent()
+#app4 = YourParent()
 
 root.mainloop()
 
