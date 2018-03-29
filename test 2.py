@@ -244,7 +244,7 @@ class YourParent:  # contoll AnimeDescription and YouAnime
         # self.animedescription()
         # self.animedescription.place_widgets(AnimeDescription())
 
-        # self.nm_anime = self.youranime.get_anime_name(YouAnime(list_user_anime=your_anime))
+        # self.nm_anime = self.youranime.get_and_set_anime_name(YouAnime(list_user_anime=your_anime))
         #  call method from Youanime
 
         # self.youranime.double_click(YouAnime(list_user_anime=your_anime), self.fill_description)
