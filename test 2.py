@@ -200,7 +200,7 @@ class AnimeDescription(Frame):
         if len(self.description.get("1.0", "end-1c")) == 0:
             # self.pack_forget()
             try:
-                self.description.delete(0, END)
+                self.description.delete(END)
                 print("the widget is empty")
             except :
                 print("ran into error")
@@ -212,7 +212,7 @@ class AnimeDescription(Frame):
             self.pack()
         else:
             print("it not ")
-            self.description.delete(0, END)
+            self.description.delete(END)
 
         self.description.grid(row=6, column=1)
 

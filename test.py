@@ -2,6 +2,7 @@ from tkinter import *
 import tkinter  # for the try and except in the animedescrition class
 
 root = Tk()
+
 root.title('Filter Listbox Test')
 # root.geometry("1013x303")
 
@@ -106,6 +107,7 @@ def create_YouAnime():
     libox_ur_anime.grid(row=1, column=0, columnspan=4, )
     # sticky=(N, S, E, W))
     btn_remove_YU.grid(row=0, column=3, sticky=E)
+    btn_add_anime1.grid(row=0, column=0, sticky=W)
     # btn_done.grid(column=0, row=0,sticky=W)
     scrollbar3.grid(row=1, column=3, sticky=(E, N, S), )
 
@@ -131,6 +133,7 @@ def get_and_set_anime_name(event):
     for i in selection:
         anime_name = libox_ur_anime.get(i)
         create_AnimeDescription()
+        print("makes frame3")
         youanime_description()  # unpacks frame2
         place_anime_info(anime_name)
         # print(anime_name)
@@ -138,15 +141,24 @@ def get_and_set_anime_name(event):
         # pack_forget()
 
 
-def unpack():
-    print("DID IT ")
-    # pack_forget()
-    # return pack_forget()
+def add_you_anime1():  # add an anime to the users personal list
+    frame2.pack_forget()
+    create_AddAnime()
+    frame1.pack()
+    btn_done.grid_forget()
+    btn_done3 = Button(frame1, text="Done", padx=1, command=done3)  # make the font larger
+    btn_done3.grid(row=3, column=1, padx=10)
+
+
+def done3():  # done button for adding anime from youanime
+    frame1.pack_forget()
+    frame2.pack()
 
 
 # -----AnimeDescription Functions-----
 
 def create_AnimeDescription():
+    frame3.pack()
     label_title.grid(column=1)
     label_genre.grid(row=3, column=1)
     label_release_date.grid(row=4, column=1)
@@ -159,47 +171,44 @@ def create_AnimeDescription():
 
 def place_anime_info(name):
     # youranime.unpack(YouAnime(list_user_anime=your_anime))
+    print("called")
     description.grid(row=6, column=1)
 
-    #if len(description.get("1.0", "end-1c")) == 0:  # if the text widget is empty
-     #   print("YES")
-    #    # pack_forget()
-    #    try:
-    #        description.delete(0, END)
-    #        print("the widget is empty")
-    #    except:
-    #        print("ran into error")
-    #        print(description)
-    #        print()
-
-   #     # pack()
-   # else:
-   #     print("it not ")
-   #     #description.delete(0, END)
-
+    try:
+        description.delete(1.0, END)
+    except:
+        print("didn't delete anything ")
     print('\n', name, '\n')
     the_name = name.strip()
     description.insert(END, all_anime[the_name][0])  # ---Plot--- string formatting
     # youranime.unpack(YouAnime(list_user_anime=your_anime))
-
+    print("End calling")
     # print("its here now ")
     # description.insert(END, all_anime[name][1])  # ---Genre---string formatting
     # description.insert(END, all_anime[name][2])  # --- Release Date ---string formatting
+    the_title.set("Title : " + the_name)
+    the_genre.set("Genre : " + ', '.join(map(str, all_anime[the_name][1])))
+    the_release_date.set("Release Date : " + all_anime[the_name][2])
+
+
+
+def back_btn():
+    print(description.delete(END))
+    frame3.pack_forget()
+    # frame3.destroy()
+    frame2.pack()
 
 
 # ----- Interaction of anime description pages-----
 
-def youanime_description(): # outlone how the two frames will interact
+def youanime_description():  # outlone how the two frames will interact
     frame2.pack_forget()
+    # save changes to list of animes
 
-def back_btn():
-    description.delete(0, END)
-    frame3.pack_forget()
-    frame2.pack()
+
 # --------CONTENT----------
 
 # -----AddAnime content-----
-
 
 frame1 = Frame(root, bg="gray")
 user_anime = your_anime  # all of the anime the user likes
@@ -234,6 +243,7 @@ scrollbar2.configure(command=textbox_choices.yview)
 # It needs to be called here to populate the listbox.
 # update_list()
 
+
 # -----Youanime Content -----
 
 frame2 = Frame(root, bg="green")
@@ -244,6 +254,7 @@ lbl_title = Label(frame2, text="Your Anime !!", padx=10, )
 btn_remove_YU = Button(frame2, text="Remove", padx=2, relief=RAISED, command=delete)
 libox_ur_anime = Listbox(frame2, selectmode=SINGLE, width=106, height=15, bg="grey")
 btn_done2 = Button(frame2, text="Done", padx=7, command=quit)  # make the font larger ####
+btn_add_anime1 = Button(frame2, text="Add Anime", padx=3, command=add_you_anime1)  # make the font larger ####
 scrollbar3 = Scrollbar(frame2, )
 
 libox_ur_anime.bind('<Double-Button-1>', get_and_set_anime_name)
@@ -256,10 +267,15 @@ frame3 = Frame(root, bg="red")
 all_anime = load(open("testing_save_.p", "rb"))  # TESTING PURPOSES
 all_anime = all_anime
 
-label_title = Label(frame3, text="Title :")
-label_genre = Label(frame3, text="Genre :")
-label_release_date = Label(frame3, text="Release Date :")
-label_plot = Label(frame3, text="Plot")
+# string variables to update the labels
+the_title = StringVar()
+the_genre = StringVar()
+the_release_date = StringVar()
+
+label_title = Label(frame3, textvariable=the_title, )
+label_genre = Label(frame3, textvariable=the_genre, )
+label_release_date = Label(frame3, textvariable=the_release_date, )
+label_plot = Label(frame3, text="Plot", )
 description = Text(frame3, bg="pink")
 description2 = Text(frame3, bg="green")
 btn_back = Button(frame3, text="<---Back", padx=7, command=back_btn)
