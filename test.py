@@ -17,10 +17,12 @@ your_anime = ['Terra Formars Revenge', 'Tesagure! Bukatsumono Encore ',
               'The Garden of Words (Dub)', 'The Girl Who Leapt Through Time', 'The Girl Who Leapt Through Time (Dub)',
               '009 Re:Cyborg (Dub)', '.hack//Sign (Dub)']
 
+
 # ---------- FUNCTIONS----------
 
 
 # -----AddAnime Functions -----
+
 
 def create_AddAnime():
     entry.grid(row=0, column=1, padx=10, pady=3)
@@ -38,6 +40,7 @@ def create_AddAnime():
     # ----- Function for updating the list/doing the search.------
     # It needs to be called here to populate the listbox.
     update_list()
+
 
 def show_anime():
     return user_anime
@@ -128,6 +131,7 @@ def get_and_set_anime_name(event):
     for i in selection:
         anime_name = libox_ur_anime.get(i)
         create_AnimeDescription()
+        youanime_description()  # unpacks frame2
         place_anime_info(anime_name)
         # print(anime_name)
         return anime_name
@@ -139,12 +143,15 @@ def unpack():
     # pack_forget()
     # return pack_forget()
 
+
 # -----AnimeDescription Functions-----
+
 def create_AnimeDescription():
     label_title.grid(column=1)
     label_genre.grid(row=3, column=1)
     label_release_date.grid(row=4, column=1)
     label_plot.grid(row=5, column=1, sticky=W)
+    btn_back.grid(row=0, column=1, sticky=W)
     # description2.grid(row=6, column=1)
 
     # description.insert(END, all_anime['009 Re:Cyborg'][0])  # string formatting
@@ -152,23 +159,23 @@ def create_AnimeDescription():
 
 def place_anime_info(name):
     # youranime.unpack(YouAnime(list_user_anime=your_anime))
-
-    if len(description.get("1.0", "end-1c")) == 0:
-        # pack_forget()
-        try:
-            description.delete(0, END)
-            print("the widget is empty")
-        except:
-            print("ran into error")
-            print(description)
-            print()
-
-        # pack()
-    else:
-        print("it not ")
-        description.delete(0, END)
-
     description.grid(row=6, column=1)
+
+    #if len(description.get("1.0", "end-1c")) == 0:  # if the text widget is empty
+     #   print("YES")
+    #    # pack_forget()
+    #    try:
+    #        description.delete(0, END)
+    #        print("the widget is empty")
+    #    except:
+    #        print("ran into error")
+    #        print(description)
+    #        print()
+
+   #     # pack()
+   # else:
+   #     print("it not ")
+   #     #description.delete(0, END)
 
     print('\n', name, '\n')
     the_name = name.strip()
@@ -179,9 +186,20 @@ def place_anime_info(name):
     # description.insert(END, all_anime[name][1])  # ---Genre---string formatting
     # description.insert(END, all_anime[name][2])  # --- Release Date ---string formatting
 
+
+# ----- Interaction of anime description pages-----
+
+def youanime_description(): # outlone how the two frames will interact
+    frame2.pack_forget()
+
+def back_btn():
+    description.delete(0, END)
+    frame3.pack_forget()
+    frame2.pack()
 # --------CONTENT----------
 
 # -----AddAnime content-----
+
 
 frame1 = Frame(root, bg="gray")
 user_anime = your_anime  # all of the anime the user likes
@@ -214,7 +232,7 @@ scrollbar2.configure(command=textbox_choices.yview)
 # -----Run necessary function------
 # ----- Function for updating the list/doing the search.------
 # It needs to be called here to populate the listbox.
-#update_list()
+# update_list()
 
 # -----Youanime Content -----
 
@@ -225,11 +243,10 @@ user_anime_YU = your_anime  # all of the anime the user likes
 lbl_title = Label(frame2, text="Your Anime !!", padx=10, )
 btn_remove_YU = Button(frame2, text="Remove", padx=2, relief=RAISED, command=delete)
 libox_ur_anime = Listbox(frame2, selectmode=SINGLE, width=106, height=15, bg="grey")
-btn_done = Button(frame2, text="Done", padx=7, command=quit)  # make the font larger ####
+btn_done2 = Button(frame2, text="Done", padx=7, command=quit)  # make the font larger ####
 scrollbar3 = Scrollbar(frame2, )
 
 libox_ur_anime.bind('<Double-Button-1>', get_and_set_anime_name)
-
 
 # -----AnimeDescription content-----
 from pickle import load
@@ -245,11 +262,11 @@ label_release_date = Label(frame3, text="Release Date :")
 label_plot = Label(frame3, text="Plot")
 description = Text(frame3, bg="pink")
 description2 = Text(frame3, bg="green")
+btn_back = Button(frame3, text="<---Back", padx=7, command=back_btn)
+
 frame3.pack()
 
-
-
-#create_AddAnime()
+# create_AddAnime()
 create_YouAnime()
 root.mainloop()
 
