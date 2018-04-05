@@ -159,7 +159,7 @@ class anime_discription(Frame):
         lable_plot.grid(row=4, column=1, sticky=W)
         discription.grid(row=5, column=1)
 
-        discription.insert(END, all_anime['Zoku Natsume Yuujinchou'])
+        #discription.insert(END, all_anime['Zoku Natsume Yuujinchou'])
 
 
 

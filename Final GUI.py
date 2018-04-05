@@ -1,4 +1,6 @@
 from tkinter import *
+from pickle import load, dump
+
 import tkinter  # for the try and except in the animedescrition class
 
 root = Tk()
@@ -7,19 +9,9 @@ root.title('Filter Listbox Test')
 
 # root.geometry("1013x303")
 
-# your_anime = []  # record all users anime
+your_anime = []  # record all users anime
 
-your_anime = ['Terra Formars Revenge', 'Tesagure! Bukatsumono Encore ',
-              'Tesagure! Bukatsumono Spin-off Purupurun Sharumu to Asobou', 'Tetsujin 28-go (Dub)',
-              'Tetsuwan Birdy (Dub)', 'Tetsuwan Birdy Decode (Dub)', 'Tetsuwan Birdy Decode:02 (Dub)', 'Texhnolyze ',
-              'The Cat Returns (Dub)', 'The Cat Returns', 'The Daughter of 20 Faces ', 'The Brave of Gold Goldran',
-              'The Disappearance of Conan Edogawa: The Worst Two Days in History',
-              'The Disappearance of Haruhi Suzumiya', 'The Epic of Zektbach OVA', 'The Galaxy Railways ',
-              'The Familiar of Zero ', 'The Boy Who Saw the Wind', 'The Galaxy Railways (Dub)',
-              'The Garden of Words (Dub)', 'The Girl Who Leapt Through Time', 'The Girl Who Leapt Through Time (Dub)',
-              '009 Re:Cyborg (Dub)', '.hack//Sign (Dub)']
-
-
+print("your anime list ", your_anime)
 # ---------- FUNCTIONS----------
 
 
@@ -33,31 +25,26 @@ def create_AddAnime():
     label_1.grid(row=1, column=0, padx=18, columnspan=2, pady=3, )
     label_2.grid(row=1, column=3, padx=18, columnspan=2, pady=3, )
     libox_all_anime.grid(row=2, column=0, padx=15, pady=3, columnspan=2)
-    textbox_choices.grid(row=2, column=3, padx=15, pady=3, columnspan=2)
+    libox_choices.grid(row=2, column=3, padx=15, pady=3, columnspan=2)
     btn_select.grid(row=2, column=2)
     btn_remove.grid(row=3, column=3, sticky=E)
     btn_done.grid(row=3, column=1, padx=10)
     scrollbar1.grid(row=2, column=0, padx=15, pady=3, columnspan=2, sticky=(N, S, E))
     scrollbar2.grid(row=2, column=3, padx=15, pady=3, columnspan=2, sticky=(N, S, E))
-    # -----Run necessary function------
+    # -----Run necessary functions------
     # ----- Function for updating the list/doing the search.------
     # It needs to be called here to populate the listbox.
     update_list()
+    # print('\n all the listbox content',libox_all_anime.get(0,END),"\n")
+    update_libox_choices()
+    update_libox_all_anime()
 
-
-def show_anime():
-    return user_anime
-
-
-def show_putback():
-    return putback
 
 
 def update_list(*args):
-    search_term = search_var.get()
+    """ maintain the listbox containing all anime """
 
-    # Just a generic list to populate the listbox
-    from pickle import load
+    search_term = search_var.get()
     all_anime = load(open("anime_save_.p", "rb"))
 
     all_anime_list = []
@@ -76,29 +63,68 @@ def Select():
     selection = libox_all_anime.curselection()
     for i in selection:
         entered = libox_all_anime.get(i)
-        textbox_choices.insert(END, entered + '\n')
-        user_anime.append(entered)
+        libox_choices.insert(END, entered + '\n')
+        your_anime.append(entered)
         libox_all_anime.delete(selection)
         putback[entered] = selection
 
 
 def Remove():
-    selection = textbox_choices.curselection()
+    selection = libox_choices.curselection()
     for i in selection:
-        clicked = textbox_choices.get(i)  # the name of the clicked anime
-        location = putback[clicked[:-1]]
-        libox_all_anime.insert(location, clicked)
-        textbox_choices.delete(selection)
-        del user_anime[i]
+        clicked = libox_choices.get(i)  # the name of the clicked anime
+        print(clicked)
+        try:
+            location = putback[clicked[:-1]]
+        except KeyError:
+            print("ran into KeyError in line 'def Remove'")
+            location = putback[clicked]
+        if clicked not in libox_all_anime.get(0, END):
+            libox_all_anime.insert(location, clicked)
+            libox_choices.delete(selection)
+        else:
+            libox_choices.delete(selection)
+        del your_anime[i]
 
 
 # def final():
 # def maintain  add a function that maintains the status of the listbox's
 
+def update_libox_choices():
+    libox_choices.delete(0, END)
+    for x in updated_your_anime():
+        libox_choices.insert(END, x)
+
+def update_libox_all_anime():
+    """ function that ensures that the anime in user choosen listbox isn't in all anime listbox """
+    print("update_libox_all_anime is runnig")
+    a = libox_all_anime.get(0, END)
+    print("the contents or a :", a)
+    b = []
+    for x in a:
+        #print("this is x: ", x)
+        b.append(x)
+        #print(x)
+    for x in updated_your_anime():
+        if x in b:
+            b.remove(x)
+    c = sorted(b)
+    print(b)
+    libox_all_anime.delete(0, END)
+    for x in c:
+        libox_all_anime.insert(END, x)
+
+
+
+
+
+
 def close():
     # final()
     """Quit the Tcl interpreter. All widgets will be destroyed."""
-    # pack_forget()
+    # pack_forget(p
+    dump(your_anime, open("users_anime_save", "wb"))  # store user anime in file
+    dump(putback, open("putback_save.p", "wb"))  # store putback in file
     frame1.quit()
 
 
@@ -115,19 +141,30 @@ def create_YouAnime():
 
     libox_ur_anime.configure(yscrollcommand=scrollbar3.set)
     scrollbar3.configure(command=libox_ur_anime.yview)
+    populate_YouAnime()
 
-    for c, item in enumerate(user_anime_YU):
+
+def populate_YouAnime():
+    for c, item in enumerate(updated_your_anime()):
         # print(str(item))
         items = "   " + str(item)  # add some bullet points or something
-
+        # libox_ur_anime.delete(0, END)
         libox_ur_anime.insert(END, items)
+    for x in updated_your_anime():
+        if x not in your_anime:
+            your_anime.append(x)
 
 
 def delete():
     selection = libox_ur_anime.curselection()
+    print(selection)
     for i in selection:
         libox_ur_anime.delete(selection)
-        del user_anime_YU[i]
+        try:
+            del your_anime[i]
+            dump(your_anime, open("users_anime_save", "wb"))  # store user anime in file
+        except:
+            pass
 
 
 def get_and_set_anime_name(event):
@@ -144,6 +181,7 @@ def get_and_set_anime_name(event):
 
 
 def add_you_anime1():  # add an anime to the users personal list
+    print("\nupdated anime list \n", updated_your_anime(), "\n")
     frame2.pack_forget()
     create_AddAnime()
     frame1.pack()
@@ -154,7 +192,14 @@ def add_you_anime1():  # add an anime to the users personal list
 
 def done3():  # done button for adding anime from youanime
     frame1.pack_forget()
+    dump(your_anime, open("users_anime_save", "wb"))  # store user anime in file
+    dump(putback, open("putback_save.p", "wb"))  # store putback in file
+    # ensure YouAnime listbox is updated
+    libox_ur_anime.delete(0, END)
+    populate_YouAnime()
     frame2.pack()
+    print("\nupdated anime list \n", updated_your_anime(), "\n")
+    print("\nsaved putback \n", putback)
 
 
 # -----AnimeDescription Functions-----
@@ -182,6 +227,7 @@ def place_anime_info(name):
         print("didn't delete anything ")
     print('\n', name, '\n')
     the_name = name.strip()
+
     description.insert(END, all_anime[the_name][0])  # ---Plot--- string formatting
     # youranime.unpack(YouAnime(list_user_anime=your_anime))
     print("End calling")
@@ -202,9 +248,18 @@ def back_btn():
 
 # ----- Interaction of anime description pages-----
 
-def youanime_description():  # outlone how the two frames will interact
+def youanime_description():  # outline how the frame 2 & 3 interact will interact
     frame2.pack_forget()
     # save changes to list of animes
+
+#
+def updated_your_anime():
+    try:
+        your_anime_updated = load(open("users_anime_save", "rb"))
+        return your_anime_updated
+    except FileNotFoundError:
+        print("'FileNotFoundError', your_anime_updated doesn\'t exist")
+        return your_anime
 
 
 # --------CONTENT----------
@@ -212,9 +267,13 @@ def youanime_description():  # outlone how the two frames will interact
 # -----AddAnime content-----
 
 frame1 = Frame(root, bg="gray")
-user_anime = your_anime  # all of the anime the user likes
-putback = {}
-putback = putback
+your_anime = your_anime  # all of the anime the user likes
+try:
+    putback = load(open("putback_save.p", "rb"))
+except FileNotFoundError:
+    print("'FileNotFoundError', putback doesn\'t exist")
+    putback = {}
+print("initial putback\n", putback)  #######3
 frame1.pack()
 
 # -----Create widgets-----
@@ -228,16 +287,16 @@ btn_remove = Button(frame1, text="Remove <---", command=Remove, padx=2, pady=2)
 btn_select = Button(frame1, text="ADD --->", command=Select, padx=2, pady=2)
 btn_done = Button(frame1, text="Done", padx=1, command=quit)  # make the font larger
 libox_all_anime = Listbox(frame1, selectmode=SINGLE, width=77, height=15)
-textbox_choices = Listbox(frame1, selectmode=SINGLE, width=77, height=15)
+libox_choices = Listbox(frame1, selectmode=SINGLE, width=77, height=15)
 scrollbar1 = Scrollbar(frame1)
 scrollbar2 = Scrollbar(frame1)
 
 # -----configure scrollbars-----
 libox_all_anime.configure(yscrollcommand=scrollbar1.set)
-textbox_choices.configure(yscrollcommand=scrollbar1.set)
+libox_choices.configure(yscrollcommand=scrollbar1.set)
 
 scrollbar1.configure(command=libox_all_anime.yview)
-scrollbar2.configure(command=textbox_choices.yview)
+scrollbar2.configure(command=libox_choices.yview)
 
 # -----Run necessary function------
 # ----- Function for updating the list/doing the search.------
@@ -249,7 +308,7 @@ scrollbar2.configure(command=textbox_choices.yview)
 
 frame2 = Frame(root, bg="green")
 frame2.pack()
-user_anime_YU = your_anime  # all of the anime the user likes
+your_anime = your_anime  # all of the anime the user likes
 
 lbl_title = Label(frame2, text="Your Anime !!", padx=10, )
 btn_remove_YU = Button(frame2, text="Remove", padx=2, relief=RAISED, command=delete)
@@ -261,12 +320,10 @@ scrollbar3 = Scrollbar(frame2, )
 libox_ur_anime.bind('<Double-Button-1>', get_and_set_anime_name)
 
 # -----AnimeDescription content-----
-from pickle import load
 
 frame3 = Frame(root, bg="red")
 
 all_anime = load(open("testing_save_.p", "rb"))  # TESTING PURPOSES
-all_anime = all_anime
 
 # string variables to update the labels
 the_title = StringVar()
@@ -288,5 +345,3 @@ create_YouAnime()
 root.mainloop()
 
 print(your_anime)
-
-print("last bit")

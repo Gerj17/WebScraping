@@ -68,7 +68,6 @@ def gather_gogo_anime():
             print('Success!!')
             break
 
-
         # Update the url to get every letter category of anime
         counter += 1
 
@@ -91,5 +90,5 @@ gather_gogo_anime()
 from pickle import dump, load
 
 # dump(all_anime, open("testing_save_.p", "wb"))  # store anime in file
-dump(all_anime, open("anime_save_.p", "wb"))  # store anime in file
+dump(all_anime, open("anime_save_.p", "wb"))  # store all anime in file
 all_anime = load(open("anime_save_.p", "rb"))
