@@ -1,4 +1,9 @@
+# read and write dictionary in a file (Dictionaries can't be stored in a file as a string)
+from pickle import dump, load
+
+
 def gather_gogo_anime():
+
     from gapurl import parseurl
     """adds anime link, plot,genres and release date to dictionary name anime with the key being the anime name
     """
@@ -58,6 +63,7 @@ def gather_gogo_anime():
                     """
 
                 all_anime[title] = plot, genre, release_date  # Final product
+                dump(all_anime, open("anime_save.p", "wb"))  # store all anime in file
 
                 """consider that the website knows how many episodes a show should have and gogo has current episodes 
                 probably probably can use that with an if statement to give 'current episode', 'expected episode' and 
@@ -86,9 +92,7 @@ def gather_gogo_anime():
 all_anime = {}
 gather_gogo_anime()
 
-# read and write dictionary in a file (Dictionaries can't be stored in a file as a string)
-from pickle import dump, load
 
 # dump(all_anime, open("testing_save_.p", "wb"))  # store anime in file
-dump(all_anime, open("anime_save_.p", "wb"))  # store all anime in file
-all_anime = load(open("anime_save_.p", "rb"))
+dump(all_anime, open("anime_save.p", "wb"))  # store all anime in file
+all_anime = load(open("anime_save.p", "rb"))

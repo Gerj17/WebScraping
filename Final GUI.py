@@ -11,7 +11,7 @@ root.title('Filter Listbox Test')
 
 your_anime = []  # record all users anime
 
-print("your anime list ", your_anime)
+# print("your anime list ", your_anime)
 # ---------- FUNCTIONS----------
 
 
@@ -35,7 +35,7 @@ def create_AddAnime():
     # ----- Function for updating the list/doing the search.------
     # It needs to be called here to populate the listbox.
     update_list()
-    # print('\n all the listbox content',libox_all_anime.get(0,END),"\n")
+    # # print('\n all the listbox content',libox_all_anime.get(0,END),"\n")
     update_libox_choices()
     update_libox_all_anime()
 
@@ -45,7 +45,7 @@ def update_list(*args):
     """ maintain the listbox containing all anime """
 
     search_term = search_var.get()
-    all_anime = load(open("anime_save_.p", "rb"))
+    all_anime = load(open("anime_save.p", "rb"))
 
     all_anime_list = []
     for key, value in all_anime.items():
@@ -59,7 +59,7 @@ def update_list(*args):
 
 
 def Select():
-    print("running")
+    # print("running")
     selection = libox_all_anime.curselection()
     for i in selection:
         entered = libox_all_anime.get(i)
@@ -73,11 +73,11 @@ def Remove():
     selection = libox_choices.curselection()
     for i in selection:
         clicked = libox_choices.get(i)  # the name of the clicked anime
-        print(clicked)
+        # print(clicked)
         try:
             location = putback[clicked[:-1]]
         except KeyError:
-            print("ran into KeyError in line 'def Remove'")
+            # print("ran into KeyError in line 'def Remove'")
             location = putback[clicked]
         if clicked not in libox_all_anime.get(0, END):
             libox_all_anime.insert(location, clicked)
@@ -95,35 +95,32 @@ def update_libox_choices():
     for x in updated_your_anime():
         libox_choices.insert(END, x)
 
+
 def update_libox_all_anime():
     """ function that ensures that the anime in user choosen listbox isn't in all anime listbox """
-    print("update_libox_all_anime is runnig")
+    ## print("update_libox_all_anime is runnig")
     a = libox_all_anime.get(0, END)
-    print("the contents or a :", a)
+    ## print("the contents or a :", a)
     b = []
     for x in a:
-        #print("this is x: ", x)
+        ## print("this is x: ", x)
         b.append(x)
-        #print(x)
+        ## print(x)
     for x in updated_your_anime():
         if x in b:
             b.remove(x)
     c = sorted(b)
-    print(b)
+    ## print(b)
     libox_all_anime.delete(0, END)
     for x in c:
         libox_all_anime.insert(END, x)
-
-
-
-
 
 
 def close():
     # final()
     """Quit the Tcl interpreter. All widgets will be destroyed."""
     # pack_forget(p
-    dump(your_anime, open("users_anime_save", "wb"))  # store user anime in file
+    dump(your_anime, open("users_anime_save.p", "wb"))  # store user anime in file
     dump(putback, open("putback_save.p", "wb"))  # store putback in file
     frame1.quit()
 
@@ -146,7 +143,7 @@ def create_YouAnime():
 
 def populate_YouAnime():
     for c, item in enumerate(updated_your_anime()):
-        # print(str(item))
+        # # print(str(item))
         items = "   " + str(item)  # add some bullet points or something
         # libox_ur_anime.delete(0, END)
         libox_ur_anime.insert(END, items)
@@ -157,12 +154,12 @@ def populate_YouAnime():
 
 def delete():
     selection = libox_ur_anime.curselection()
-    print(selection)
+    # print(selection)
     for i in selection:
         libox_ur_anime.delete(selection)
         try:
             del your_anime[i]
-            dump(your_anime, open("users_anime_save", "wb"))  # store user anime in file
+            dump(your_anime, open("users_anime_save.p", "wb"))  # store user anime in file
         except:
             pass
 
@@ -172,16 +169,16 @@ def get_and_set_anime_name(event):
     for i in selection:
         anime_name = libox_ur_anime.get(i)
         create_AnimeDescription()
-        print("makes frame3")
+        # print("makes frame3")
         youanime_description()  # unpacks frame2
         place_anime_info(anime_name)
-        # print(anime_name)
+        # # print(anime_name)
         return anime_name
         # pack_forget()
 
 
 def add_you_anime1():  # add an anime to the users personal list
-    print("\nupdated anime list \n", updated_your_anime(), "\n")
+    # print("\nupdated anime list \n", updated_your_anime(), "\n")
     frame2.pack_forget()
     create_AddAnime()
     frame1.pack()
@@ -192,14 +189,14 @@ def add_you_anime1():  # add an anime to the users personal list
 
 def done3():  # done button for adding anime from youanime
     frame1.pack_forget()
-    dump(your_anime, open("users_anime_save", "wb"))  # store user anime in file
+    dump(your_anime, open("users_anime_save.p", "wb"))  # store user anime in file
     dump(putback, open("putback_save.p", "wb"))  # store putback in file
     # ensure YouAnime listbox is updated
     libox_ur_anime.delete(0, END)
     populate_YouAnime()
     frame2.pack()
-    print("\nupdated anime list \n", updated_your_anime(), "\n")
-    print("\nsaved putback \n", putback)
+    # print("\nupdated anime list \n", updated_your_anime(), "\n")
+    # print("\nsaved putback \n", putback)
 
 
 # -----AnimeDescription Functions-----
@@ -218,20 +215,20 @@ def create_AnimeDescription():
 
 def place_anime_info(name):
     # youranime.unpack(YouAnime(list_user_anime=your_anime))
-    print("called")
+    # print("called")
     description.grid(row=6, column=1)
 
     try:
         description.delete(1.0, END)
     except:
         print("didn't delete anything ")
-    print('\n', name, '\n')
+    # print('\n', name, '\n')
     the_name = name.strip()
 
     description.insert(END, all_anime[the_name][0])  # ---Plot--- string formatting
     # youranime.unpack(YouAnime(list_user_anime=your_anime))
-    print("End calling")
-    # print("its here now ")
+    # print("End calling")
+    # # print("its here now ")
     # description.insert(END, all_anime[name][1])  # ---Genre---string formatting
     # description.insert(END, all_anime[name][2])  # --- Release Date ---string formatting
     the_title.set("Title : " + the_name)
@@ -240,7 +237,7 @@ def place_anime_info(name):
 
 
 def back_btn():
-    print(description.delete(END))
+    # print(description.delete(END))
     frame3.pack_forget()
     # frame3.destroy()
     frame2.pack()
@@ -255,7 +252,7 @@ def youanime_description():  # outline how the frame 2 & 3 interact will interac
 #
 def updated_your_anime():
     try:
-        your_anime_updated = load(open("users_anime_save", "rb"))
+        your_anime_updated = load(open("users_anime_save.p", "rb"))
         return your_anime_updated
     except FileNotFoundError:
         print("'FileNotFoundError', your_anime_updated doesn\'t exist")
@@ -273,7 +270,7 @@ try:
 except FileNotFoundError:
     print("'FileNotFoundError', putback doesn\'t exist")
     putback = {}
-print("initial putback\n", putback)  #######3
+# print("initial putback\n", putback)  #######3
 frame1.pack()
 
 # -----Create widgets-----
@@ -323,7 +320,8 @@ libox_ur_anime.bind('<Double-Button-1>', get_and_set_anime_name)
 
 frame3 = Frame(root, bg="red")
 
-all_anime = load(open("testing_save_.p", "rb"))  # TESTING PURPOSES
+# all_anime = load(open("testing_save_.p", "rb"))  # TESTING PURPOSES
+all_anime = load(open("anime_save.p", "rb"))  # TESTING PURPOSES
 
 # string variables to update the labels
 the_title = StringVar()
@@ -344,4 +342,4 @@ frame3.pack()
 create_YouAnime()
 root.mainloop()
 
-print(your_anime)
+# print(your_anime)
