@@ -5,11 +5,12 @@ import tkinter  # for the try and except in the animedescrition class
 
 root = Tk()
 
-root.title('Filter Listbox Test')
+root.title('                                                                                            Anime World')
 
 # root.geometry("1013x303")
 
 your_anime = []  # record all users anime
+
 
 # print("your anime list ", your_anime)
 # ---------- FUNCTIONS----------
@@ -38,7 +39,6 @@ def create_AddAnime():
     # # print('\n all the listbox content',libox_all_anime.get(0,END),"\n")
     update_libox_choices()
     update_libox_all_anime()
-
 
 
 def update_list(*args):
@@ -249,6 +249,7 @@ def youanime_description():  # outline how the frame 2 & 3 interact will interac
     frame2.pack_forget()
     # save changes to list of animes
 
+
 #
 def updated_your_anime():
     try:
@@ -277,14 +278,14 @@ frame1.pack()
 search_var = StringVar()
 search_var.trace("w", update_list)
 entry = Entry(frame1, textvariable=search_var, width=60)
-label_0 = Label(frame1, text="Search")
-label_1 = Label(frame1, text="All Anime ", )
-label_2 = Label(frame1, text="Your Anime ", )
+label_0 = Label(frame1, text="Search!!",font='Helvetica 12 bold',bg="grey")
+label_1 = Label(frame1, text="All Anime ", font='Helvetica 12 bold',bg="grey")
+label_2 = Label(frame1, text="Your Anime ",font='Helvetica 12 bold',bg="grey")
 btn_remove = Button(frame1, text="Remove <---", command=Remove, padx=2, pady=2)
 btn_select = Button(frame1, text="ADD --->", command=Select, padx=2, pady=2)
 btn_done = Button(frame1, text="Done", padx=1, command=quit)  # make the font larger
-libox_all_anime = Listbox(frame1, selectmode=SINGLE, width=77, height=15)
-libox_choices = Listbox(frame1, selectmode=SINGLE, width=77, height=15)
+libox_all_anime = Listbox(frame1, selectmode=SINGLE, width=77, height=21)
+libox_choices = Listbox(frame1, selectmode=SINGLE, width=77, height=21)
 scrollbar1 = Scrollbar(frame1)
 scrollbar2 = Scrollbar(frame1)
 
@@ -307,9 +308,9 @@ frame2 = Frame(root, bg="green")
 frame2.pack()
 your_anime = your_anime  # all of the anime the user likes
 
-lbl_title = Label(frame2, text="Your Anime !!", padx=10, )
+lbl_title = Label(frame2, text="Your Anime !!", padx=10, font='Helvetica 10 bold')
 btn_remove_YU = Button(frame2, text="Remove", padx=2, relief=RAISED, command=delete)
-libox_ur_anime = Listbox(frame2, selectmode=SINGLE, width=106, height=15, bg="grey")
+libox_ur_anime = Listbox(frame2, selectmode=SINGLE, width=110, height=20, bg="grey")
 btn_done2 = Button(frame2, text="Done", padx=7, command=quit)  # make the font larger ####
 btn_add_anime1 = Button(frame2, text="Add Anime", padx=3, command=add_you_anime1)  # make the font larger ####
 scrollbar3 = Scrollbar(frame2, )
@@ -328,18 +329,18 @@ the_title = StringVar()
 the_genre = StringVar()
 the_release_date = StringVar()
 
-label_title = Label(frame3, textvariable=the_title, )
-label_genre = Label(frame3, textvariable=the_genre, )
-label_release_date = Label(frame3, textvariable=the_release_date, )
-label_plot = Label(frame3, text="Plot", )
+label_title = Label(frame3, textvariable=the_title,bg="yellow", pady=5,font='Helvetica 10 bold')
+label_genre = Label(frame3, textvariable=the_genre,bg="yellow",font='Helvetica 10 bold')
+label_release_date = Label(frame3, textvariable=the_release_date,bg="yellow",font='Helvetica 10 bold')
+label_plot = Label(frame3, text="Plot",padx=9 )
 description = Text(frame3, bg="pink")
 description2 = Text(frame3, bg="green")
 btn_back = Button(frame3, text="<---Back", padx=7, command=back_btn)
 
 frame3.pack()
 
-# create_AddAnime()
 create_YouAnime()
+
 root.mainloop()
 
 # print(your_anime)

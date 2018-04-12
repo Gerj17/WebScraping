@@ -11,7 +11,10 @@ def gather_gogo_anime():
     #gogo = 'http://www3.gogoanime.tv/'
     #gogo_anime_list = 'http://www3.gogoanime.tv/anime-list-0?page=1'
     gogo = 'https://www1.gogoanime.se/'
-    gogo_anime_list = 'https://www1.gogoanime.se/anime-list-0?page=1'
+    try:
+        gogo_anime_list = 'https://www1.gogoanime.se/anime-list-0?page=1'
+    except:
+        gogo_anime_list = 'https://www1.gogoanime.se/anime-list.html?page=1'
 
     counter = 1  # iterate through alphabet to anime url
     while True:
@@ -83,10 +86,11 @@ def gather_gogo_anime():
 
 
         # account for numbers larger than 9
-        if counter < 10:
+        if counter < 11:
             gogo_anime_list = str(gogo_anime_list[:-1] + str(counter))
             continue
-        gogo_anime_list = str(gogo_anime_list[:-2] + str(counter))
+        else:
+            gogo_anime_list = str(gogo_anime_list[:-2] + str(counter))
 
 # Dictionary containing all anime
 
