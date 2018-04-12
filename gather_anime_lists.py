@@ -8,8 +8,10 @@ def gather_gogo_anime():
     """adds anime link, plot,genres and release date to dictionary name anime with the key being the anime name
     """
     all_anime = load(open("anime_save.p", "rb"))
-    gogo = 'http://www3.gogoanime.tv/'
-    gogo_anime_list = 'http://www3.gogoanime.tv/anime-list-0?page=1'
+    #gogo = 'http://www3.gogoanime.tv/'
+    #gogo_anime_list = 'http://www3.gogoanime.tv/anime-list-0?page=1'
+    gogo = 'https://www1.gogoanime.se/'
+    gogo_anime_list = 'https://www1.gogoanime.se/anime-list-0?page=1'
 
     counter = 1  # iterate through alphabet to anime url
     while True:
@@ -79,8 +81,6 @@ def gather_gogo_anime():
         # Update the url to get every letter category of anime
         counter += 1
 
-        if counter == 2:
-            break
 
         # account for numbers larger than 9
         if counter < 10:

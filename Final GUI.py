@@ -178,7 +178,7 @@ def get_and_set_anime_name(event):
 
 
 def add_you_anime1():  # add an anime to the users personal list
-    # print("\nupdated anime list \n", updated_your_anime(), "\n")
+    # print("\n updated anime list \n", updated_your_anime(), "\n")
     frame2.pack_forget()
     create_AddAnime()
     frame1.pack()
@@ -195,8 +195,8 @@ def done3():  # done button for adding anime from youanime
     libox_ur_anime.delete(0, END)
     populate_YouAnime()
     frame2.pack()
-    # print("\nupdated anime list \n", updated_your_anime(), "\n")
-    # print("\nsaved putback \n", putback)
+    # print("\n updated anime list \n", updated_your_anime(), "\n")
+    # print("\n saved putback \n", putback)
 
 
 # -----AnimeDescription Functions-----
