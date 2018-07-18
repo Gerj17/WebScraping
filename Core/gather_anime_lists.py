@@ -3,13 +3,12 @@ from pickle import dump, load
 
 
 def gather_gogo_anime():
-
-    from gapurl import parseurl
+    from Core.gapurl import parseurl
     """adds anime link, plot,genres and release date to dictionary name anime with the key being the anime name
     """
     all_anime = load(open("anime_save.p", "rb"))
-    #gogo = 'http://www3.gogoanime.tv/'
-    #gogo_anime_list = 'http://www3.gogoanime.tv/anime-list-0?page=1'
+    # gogo = 'http://www3.gogoanime.tv/'
+    # gogo_anime_list = 'http://www3.gogoanime.tv/anime-list-0?page=1'
     gogo = 'https://www1.gogoanime.se/'
     try:
         gogo_anime_list = 'https://www1.gogoanime.se/anime-list-0?page=1'
@@ -84,7 +83,6 @@ def gather_gogo_anime():
         # Update the url to get every letter category of anime
         counter += 1
 
-
         # account for numbers larger than 9
         if counter < 11:
             gogo_anime_list = str(gogo_anime_list[:-1] + str(counter))
@@ -92,14 +90,13 @@ def gather_gogo_anime():
         else:
             gogo_anime_list = str(gogo_anime_list[:-2] + str(counter))
 
+
 # Dictionary containing all anime
 
 
 all_anime = {}
 
-
 gather_gogo_anime()
-
 
 # dump(all_anime, open("testing_save_.p", "wb"))  # store anime in file
 dump(all_anime, open("anime_save.p", "wb"))  # store all anime in file

@@ -3,6 +3,7 @@ def parseurl(website):
 
     Keyword arguments:
     Website -- the website to be parsed
+    file_name -- the name of the file you want to save the html in
 
     if BeautifulSoup4 not installed :
         ModuleNotFoundError: No module named 'bs4'

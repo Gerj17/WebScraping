@@ -1,4 +1,4 @@
-from gather_anime_lists import gather_gogo_anime
+from Core.gather_anime_lists import gather_gogo_anime
 from pickle import dump, load
 
 # The websites

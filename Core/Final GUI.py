@@ -1,7 +1,9 @@
 from tkinter import *
 from pickle import load, dump
+from pathlib import Path
 
 import tkinter  # for the try and except in the animedescrition class
+Save_file_dir = (Path(Path.cwd()/"Save files"))
 
 root = Tk()
 
@@ -45,7 +47,7 @@ def update_list(*args):
     """ maintain the listbox containing all anime """
 
     search_term = search_var.get()
-    all_anime = load(open("anime_save.p", "rb"))
+    all_anime = load(open(Save_file_dir.joinpath("anime_save.p"), "rb"))
 
     all_anime_list = []
     for key, value in all_anime.items():
@@ -115,13 +117,12 @@ def update_libox_all_anime():
     for x in c:
         libox_all_anime.insert(END, x)
 
-
 def close():
     # final()
     """Quit the Tcl interpreter. All widgets will be destroyed."""
     # pack_forget(p
-    dump(your_anime, open("users_anime_save.p", "wb"))  # store user anime in file
-    dump(putback, open("putback_save.p", "wb"))  # store putback in file
+    dump(your_anime, open(Save_file_dir.joinpath("users_anime_save.p"), "wb"))  # store user anime in file
+    dump(putback, open(Save_file_dir.joinpath("putback_save.p"), "wb"))  # store putback in file
     frame1.quit()
 
 
@@ -159,7 +160,7 @@ def delete():
         libox_ur_anime.delete(selection)
         try:
             del your_anime[i]
-            dump(your_anime, open("users_anime_save.p", "wb"))  # store user anime in file
+            dump(your_anime, open(Save_file_dir.joinpath("users_anime_save.p"), "wb"))  # store user anime in file
         except:
             pass
 
@@ -189,8 +190,8 @@ def add_you_anime1():  # add an anime to the users personal list
 
 def done3():  # done button for adding anime from youanime
     frame1.pack_forget()
-    dump(your_anime, open("users_anime_save.p", "wb"))  # store user anime in file
-    dump(putback, open("putback_save.p", "wb"))  # store putback in file
+    dump(your_anime, open(Save_file_dir.joinpath("users_anime_save.p"), "wb"))  # store user anime in file
+    dump(putback, open(Save_file_dir.joinpath("putback_save.p"), "wb"))  # store putback in file
     # ensure YouAnime listbox is updated
     libox_ur_anime.delete(0, END)
     populate_YouAnime()
@@ -206,8 +207,8 @@ def create_AnimeDescription():
     label_title.grid(column=1)
     label_genre.grid(row=3, column=1)
     label_release_date.grid(row=4, column=1)
-    label_plot.grid(row=5, column=1, sticky=W)
-    btn_back.grid(row=0, column=1, sticky=W)
+    label_plot.grid(row=5, column=0, colspan=2, sticky=W)
+    btn_back.grid(row=0, column=0, sticky=W)
     # description2.grid(row=6, column=1)
 
     # description.insert(END, all_anime['009 Re:Cyborg'][0])  # string formatting
@@ -253,7 +254,7 @@ def youanime_description():  # outline how the frame 2 & 3 interact will interac
 #
 def updated_your_anime():
     try:
-        your_anime_updated = load(open("users_anime_save.p", "rb"))
+        your_anime_updated = load(open(Save_file_dir.joinpath("users_anime_save.p"), "rb"))
         return your_anime_updated
     except FileNotFoundError:
         print("'FileNotFoundError', your_anime_updated doesn\'t exist")
@@ -267,7 +268,7 @@ def updated_your_anime():
 frame1 = Frame(root, bg="gray")
 your_anime = your_anime  # all of the anime the user likes
 try:
-    putback = load(open("putback_save.p", "rb"))
+    putback = load(open(Save_file_dir.joinpath("putback_save.p"), "rb"))
 except FileNotFoundError:
     print("'FileNotFoundError', putback doesn\'t exist")
     putback = {}
@@ -278,9 +279,9 @@ frame1.pack()
 search_var = StringVar()
 search_var.trace("w", update_list)
 entry = Entry(frame1, textvariable=search_var, width=60)
-label_0 = Label(frame1, text="Search!!",font='Helvetica 12 bold',bg="grey")
-label_1 = Label(frame1, text="All Anime ", font='Helvetica 12 bold',bg="grey")
-label_2 = Label(frame1, text="Your Anime ",font='Helvetica 12 bold',bg="grey")
+label_0 = Label(frame1, text="Search!!", font='Helvetica 12 bold', bg="grey")
+label_1 = Label(frame1, text="All Anime ", font='Helvetica 12 bold', bg="grey")
+label_2 = Label(frame1, text="Your Anime ", font='Helvetica 12 bold', bg="grey")
 btn_remove = Button(frame1, text="Remove <---", command=Remove, padx=2, pady=2)
 btn_select = Button(frame1, text="ADD --->", command=Select, padx=2, pady=2)
 btn_done = Button(frame1, text="Done", padx=1, command=quit)  # make the font larger
@@ -319,20 +320,20 @@ libox_ur_anime.bind('<Double-Button-1>', get_and_set_anime_name)
 
 # -----AnimeDescription content-----
 
-frame3 = Frame(root, bg="red")
+frame3 = Frame(root, bg="#900C3F")
 
 # all_anime = load(open("testing_save_.p", "rb"))  # TESTING PURPOSES
-all_anime = load(open("anime_save.p", "rb"))  # TESTING PURPOSES
+all_anime = load(open(Save_file_dir.joinpath("anime_save.p"), "rb"))  # TESTING PURPOSES
 
 # string variables to update the labels
 the_title = StringVar()
 the_genre = StringVar()
 the_release_date = StringVar()
 
-label_title = Label(frame3, textvariable=the_title,bg="yellow", pady=5,font='Helvetica 10 bold')
-label_genre = Label(frame3, textvariable=the_genre,bg="yellow",font='Helvetica 10 bold')
-label_release_date = Label(frame3, textvariable=the_release_date,bg="yellow",font='Helvetica 10 bold')
-label_plot = Label(frame3, text="Plot",padx=9 )
+label_title = Label(frame3, textvariable=the_title, bg="#DAF7A6", pady=5, font='Helvetica 10 bold')
+label_genre = Label(frame3, textvariable=the_genre, bg="#DAF7A6", font='Helvetica 10 bold')
+label_release_date = Label(frame3, textvariable=the_release_date, bg="#DAF7A6", font='Helvetica 10 bold')
+label_plot = Label(frame3, text="Plot", padx=9)
 description = Text(frame3, bg="pink")
 description2 = Text(frame3, bg="green")
 btn_back = Button(frame3, text="<---Back", padx=7, command=back_btn)
